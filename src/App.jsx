@@ -10,7 +10,7 @@ const INITIAL_TIPS = [
 
 export default function App() {
   const [bill, setBill] = useState(0);
-  const [numberOfPeople, setNumberofPeople] = useState(1);
+  const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [tips, setTips] = useState(INITIAL_TIPS);
   const [selectedId, setSelectedId] = useState(0);
 
@@ -26,7 +26,6 @@ export default function App() {
 
   return (
     <>
-      {selectedId}
       <h1 className="grid place-content-center py-8">
         <img src="images/logo.svg" alt="" />
       </h1>
@@ -44,6 +43,8 @@ export default function App() {
                 type="text"
                 placeholder="0.00"
                 id="billInput"
+                value={bill}
+                onChange={(e) => setBill(e.target.value)}
               />
               <img
                 className="absolute left-3 top-3.5"
@@ -120,6 +121,8 @@ export default function App() {
                 type="text"
                 placeholder="1"
                 id="numberOfPeopleInput"
+                value={numberOfPeople}
+                onChange={(e) => setNumberOfPeople(e.target.value)}
               />
               <img
                 className="absolute left-3 top-3.5"
