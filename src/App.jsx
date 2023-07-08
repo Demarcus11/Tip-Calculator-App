@@ -11,21 +11,38 @@ const INITIAL_TIPS = [
 export default function App() {
   const [bill, setBill] = useState(0);
   const [numberOfPeople, setNumberOfPeople] = useState(1);
+  const [customTip, setCustomTip] = useState("");
   const [tips, setTips] = useState(INITIAL_TIPS);
   const [selectedId, setSelectedId] = useState(0);
 
   // Reactives
-  const selectedTip = tips.find((tip) => tip.id === selectedId); // selectedTip will be updated when selectedId changes
+  let selectedTip =
+    customTip !== ""
+      ? { amount: parseFloat(customTip) / 100, id: -1 }
+      : tips.find((tip) => tip.id === selectedId); // selectedTip will be updated when selectedId changes, if custom tip is inputted create a new object for it and give it an amount
 
   // Functions
 
   // Sets the selected tip index as new selectedId
   function handleTipChange(id) {
     setSelectedId(id);
+    setCustomTip("");
+  }
+
+  function handleCustomTipChange(e) {
+    let value = e.target.value;
+
+    setCustomTip(value);
+    if (value !== "") {
+      setSelectedId(null);
+    } else {
+      setSelectedId(0);
+    }
   }
 
   return (
     <>
+      {selectedTip.amount}
       <h1 className="grid place-content-center py-8">
         <img src="images/logo.svg" alt="" />
       </h1>
@@ -98,6 +115,8 @@ export default function App() {
                     type="text"
                     placeholder="Custom"
                     id="customInput"
+                    value={customTip}
+                    onChange={handleCustomTipChange}
                   />
                 </div>
               </div>
