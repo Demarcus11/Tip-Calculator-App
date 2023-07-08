@@ -1,6 +1,32 @@
+import { useState } from "react";
+
+const INITIAL_TIPS = [
+  { amount: 0.05, id: 0 },
+  { amount: 0.1, id: 1 },
+  { amount: 0.15, id: 2 },
+  { amount: 0.25, id: 3 },
+  { amount: 0.5, id: 4 },
+];
+
 export default function App() {
+  const [bill, setBill] = useState(0);
+  const [numberOfPeople, setNumberofPeople] = useState(1);
+  const [tips, setTips] = useState(INITIAL_TIPS);
+  const [selectedId, setSelectedId] = useState(0);
+
+  // Reactives
+  const selectedTip = tips.find((tip) => tip.id === selectedId); // selectedTip will be updated when selectedId changes
+
+  // Functions
+
+  // Sets the selected tip index as new selectedId
+  function handleTipChange(id) {
+    setSelectedId(id);
+  }
+
   return (
     <>
+      {selectedId}
       <h1 className="grid place-content-center py-8">
         <img src="images/logo.svg" alt="" />
       </h1>
@@ -40,95 +66,30 @@ export default function App() {
                 className="mt-4 grid grid-cols-2 lg:grid-cols-3 gap-4"
                 role="radiogroup"
               >
-                <div className="relative">
-                  <input
-                    type="radio"
-                    name="tips"
-                    className="tips hidden"
-                    value="5%"
-                    id="tip-5%"
-                  />
-                  <label
-                    htmlFor="tip-5%"
-                    className="flex min-h-[3rem] cursor-pointer items-center justify-center rounded bg-clr-nuetral-600 font-space-mono text-clr-nuetral-200 transition duration-300 ease-in-out hover:bg-clr-primary-300 hover:text-clr-nuetral-600"
-                  >
-                    <span className="tip-button" aria-hidden="true">
-                      5%
-                    </span>
-                  </label>
-                </div>
-
-                <div className="relative">
-                  <input
-                    type="radio"
-                    name="tips"
-                    className="tips hidden"
-                    value="10%"
-                    id="tip-10%"
-                  />
-                  <label
-                    htmlFor="tip-10%"
-                    className="flex min-h-[3rem] cursor-pointer items-center justify-center rounded bg-clr-nuetral-600 font-space-mono text-clr-nuetral-200 transition duration-300 ease-in-out hover:bg-clr-primary-300 hover:text-clr-nuetral-600"
-                  >
-                    <span className="tip-button" aria-hidden="true">
-                      10%
-                    </span>
-                  </label>
-                </div>
-
-                <div className="relative">
-                  <input
-                    type="radio"
-                    name="tips"
-                    className="tips hidden"
-                    value="15%"
-                    id="tip-15%"
-                  />
-                  <label
-                    htmlFor="tip-15%"
-                    className="flex min-h-[3rem] cursor-pointer items-center justify-center rounded bg-clr-nuetral-600 font-space-mono text-clr-nuetral-200 transition duration-300 ease-in-out hover:bg-clr-primary-300 hover:text-clr-nuetral-600"
-                  >
-                    <span className="tip-button" aria-hidden="true">
-                      15%
-                    </span>
-                  </label>
-                </div>
-
-                <div className="relative">
-                  <input
-                    type="radio"
-                    name="tips"
-                    className="tips hidden"
-                    value="25%"
-                    id="tip-25%"
-                  />
-                  <label
-                    htmlFor="tip-25%"
-                    className="flex min-h-[3rem] cursor-pointer items-center justify-center rounded bg-clr-nuetral-600 font-space-mono text-clr-nuetral-200 transition duration-300 ease-in-out hover:bg-clr-primary-300 hover:text-clr-nuetral-600"
-                  >
-                    <span className="tip-button" aria-hidden="true">
-                      25%
-                    </span>
-                  </label>
-                </div>
-
-                <div className="relative">
-                  <input
-                    type="radio"
-                    name="tips"
-                    className="tips hidden"
-                    value="50%"
-                    id="tip-50%"
-                  />
-                  <label
-                    htmlFor="tip-50%"
-                    className="flex min-h-[3rem] cursor-pointer items-center justify-center rounded bg-clr-nuetral-600 font-space-mono text-clr-nuetral-200 transition duration-300 ease-in-out hover:bg-clr-primary-300 hover:text-clr-nuetral-600"
-                  >
-                    <span className="tip-button" aria-hidden="true">
-                      50%
-                    </span>
-                  </label>
-                </div>
+                {tips.map((tip, index) => {
+                  return (
+                    <div className="relative" key={index}>
+                      <input
+                        type="radio"
+                        name="tips"
+                        className="tips hidden"
+                        value={`${tip.amount}%`}
+                        onChange={() => handleTipChange(index)}
+                        id={`tip-${tip.amount}%`}
+                      />
+                      <label
+                        htmlFor={`tip-${tip.amount}%`}
+                        className={`flex min-h-[3rem] cursor-pointer items-center justify-center rounded bg-clr-nuetral-600 font-space-mono text-clr-nuetral-200 transition duration-300 ease-in-out hover:bg-clr-primary-300 hover:text-clr-nuetral-600 ${
+                          selectedId === index ? "bg-clr-primary-400" : ""
+                        }`}
+                      >
+                        <span className="tip-button" aria-hidden="true">
+                          {`${tip.amount * 100}%`}
+                        </span>
+                      </label>
+                    </div>
+                  );
+                })}
 
                 <div>
                   <input
