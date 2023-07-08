@@ -177,7 +177,10 @@ export default function App() {
                 className="text-2xl text-clr-primary-400 lg:text-4xl"
                 id="tipAmount"
               >
-                ${isNaN(tipAmount.toFixed(2)) ? "0.00" : tipAmount.toFixed(2)}
+                $
+                {isFinite(tipAmount.toFixed(2)) || isNaN(tipAmount.toFixed(2))
+                  ? "0.00"
+                  : tipAmount.toFixed(2)}
               </p>
             </div>
             <div className="flex items-center justify-between">
@@ -191,7 +194,10 @@ export default function App() {
                 className="text-2xl text-clr-primary-400 lg:text-4xl"
                 id="total"
               >
-                ${isNaN(total.toFixed(2)) ? "0.00" : total.toFixed(2)}
+                $
+                {isFinite(total.toFixed(2)) || isNaN(total.toFixed(2))
+                  ? "0.00"
+                  : total.toFixed(2)}
               </p>
             </div>
           </div>
