@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const INITIAL_TIPS = [
+const TIPS = [
   { amount: 0.05, id: 0 },
   { amount: 0.1, id: 1 },
   { amount: 0.15, id: 2 },
@@ -12,14 +12,15 @@ export default function App() {
   const [bill, setBill] = useState(0);
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [customTip, setCustomTip] = useState("");
-  const [tips, setTips] = useState(INITIAL_TIPS);
   const [selectedId, setSelectedId] = useState(0);
 
   // Reactives
   let selectedTip =
     customTip !== ""
       ? { amount: parseFloat(customTip) / 100, id: -1 }
-      : tips.find((tip) => tip.id === selectedId); // selectedTip will be updated when selectedId changes, if custom tip is inputted create a new object for it and give it an amount
+      : TIPS.find((tip) => tip.id === selectedId); // selectedTip will be updated when selectedId changes, if custom tip is inputted create a new object for it and give it an amount
+  let tipAmount = (selectedTip.amount * bill) / numberOfPeople; // tipAmount will be updated when selectedTip,bill, and numberOfPeople change
+  let total = Number(bill) / Number(numberOfPeople) + Number(tipAmount); // total will be updated when bill,tipAmount, and numberOfPeople change
 
   // Functions
 
@@ -40,9 +41,15 @@ export default function App() {
     }
   }
 
+  function handleResetClick() {
+    setSelectedId(0);
+    setCustomTip("");
+    setBill(0);
+    setNumberOfPeople(1);
+  }
+
   return (
     <>
-      {selectedTip.amount}
       <h1 className="grid place-content-center py-8">
         <img src="images/logo.svg" alt="" />
       </h1>
@@ -84,7 +91,7 @@ export default function App() {
                 className="mt-4 grid grid-cols-2 lg:grid-cols-3 gap-4"
                 role="radiogroup"
               >
-                {tips.map((tip, index) => {
+                {TIPS.map((tip, index) => {
                   return (
                     <div className="relative" key={index}>
                       <input
@@ -128,6 +135,11 @@ export default function App() {
               <h2 className="mb-2 font-space-mono text-base text-clr-nuetral-500 empty:hidden">
                 Number of People
               </h2>
+              {numberOfPeople <= 0 && (
+                <p className="text-sm text-red-500 font-space-mono">
+                  Can't be zero
+                </p>
+              )}
               {status === "error" && (
                 <p className="text-sm text-red-500 font-space-mono empty:hidden">
                   Can't be zero
@@ -165,7 +177,7 @@ export default function App() {
                 className="text-2xl text-clr-primary-400 lg:text-4xl"
                 id="tipAmount"
               >
-                $0.00
+                ${isNaN(tipAmount.toFixed(2)) ? "0.00" : tipAmount.toFixed(2)}
               </p>
             </div>
             <div className="flex items-center justify-between">
@@ -179,12 +191,15 @@ export default function App() {
                 className="text-2xl text-clr-primary-400 lg:text-4xl"
                 id="total"
               >
-                $0.00
+                ${isNaN(total.toFixed(2)) ? "0.00" : total.toFixed(2)}
               </p>
             </div>
           </div>
 
-          <button className="mt-8 w-full cursor-pointer rounded bg-clr-primary-400 pb-1.5 pt-2 uppercase text-clr-nuetral-600 transition-all hover:bg-clr-primary-300 lg:pb-3 lg:pt-3">
+          <button
+            className="mt-8 w-full cursor-pointer rounded bg-clr-primary-400 pb-1.5 pt-2 uppercase text-clr-nuetral-600 transition-all hover:bg-clr-primary-300 lg:pb-3 lg:pt-3"
+            onClick={handleResetClick}
+          >
             Reset
           </button>
         </div>
