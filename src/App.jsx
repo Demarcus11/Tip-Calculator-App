@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from "./components/Input.jsx";
 
 const TIPS = [
   { amount: 0.05, id: 0 },
@@ -55,28 +56,14 @@ export default function App() {
       </h1>
       <main className="grid max-w-4xl gap-8 rounded-3xl bg-clr-nuetral-100 p-8 lg:grid-cols-2">
         <div className="grid gap-8">
-          <div>
-            <div className="flex justify-between items-center">
-              <h2 className="mb-2 font-space-mono text-base text-clr-nuetral-500 empty:hidden">
-                Bill
-              </h2>
-            </div>
-            <div className="relative">
-              <input
-                className="w-full rounded bg-clr-nuetral-200 px-4 py-1.5 text-right font-space-mono text-clr-nuetral-600 placeholder:text-nuetral-400 focus:outline-clr-primary-400"
-                type="text"
-                placeholder="0.00"
-                id="billInput"
-                value={bill}
-                onChange={(e) => setBill(e.target.value)}
-              />
-              <img
-                className="absolute left-3 top-3.5"
-                src="images/icon-dollar.svg"
-                alt=""
-              />
-            </div>
-          </div>
+          <Input
+            title="Bill"
+            placeholder="0.00"
+            id="billInput"
+            icon="images/icon-dollar.svg"
+            value={bill}
+            onChange={setBill}
+          />
 
           <div>
             <h2 className="mb-2 font-space-mono text-base text-clr-nuetral-500">
@@ -130,38 +117,15 @@ export default function App() {
             </fieldset>
           </div>
 
-          <div>
-            <div className="flex justify-between items-center">
-              <h2 className="mb-2 font-space-mono text-base text-clr-nuetral-500 empty:hidden">
-                Number of People
-              </h2>
-              {numberOfPeople <= 0 && (
-                <p className="text-sm text-red-500 font-space-mono">
-                  Can't be zero
-                </p>
-              )}
-              {status === "error" && (
-                <p className="text-sm text-red-500 font-space-mono empty:hidden">
-                  Can't be zero
-                </p>
-              )}
-            </div>
-            <div className="relative">
-              <input
-                className="w-full rounded bg-clr-nuetral-200 px-4 py-1.5 text-right font-space-mono text-clr-nuetral-600 placeholder:text-nuetral-400 focus:outline-clr-primary-400"
-                type="text"
-                placeholder="1"
-                id="numberOfPeopleInput"
-                value={numberOfPeople}
-                onChange={(e) => setNumberOfPeople(e.target.value)}
-              />
-              <img
-                className="absolute left-3 top-3.5"
-                src="images/icon-person.svg"
-                alt=""
-              />
-            </div>
-          </div>
+          <Input
+            title="Number of People"
+            placeholder="1"
+            id="numberOfPeopleInput"
+            icon="images/icon-person.svg"
+            value={numberOfPeople}
+            onChange={setNumberOfPeople}
+            error="Can't be zero"
+          />
         </div>
 
         <div className="flex h-full flex-col justify-between rounded-2xl bg-clr-nuetral-600 px-4 py-8 font-space-mono text-base text-clr-nuetral-200 lg:px-8 lg:py-12">
@@ -178,7 +142,7 @@ export default function App() {
                 id="tipAmount"
               >
                 $
-                {isFinite(tipAmount.toFixed(2)) || isNaN(tipAmount.toFixed(2))
+                {isNaN(tipAmount.toFixed(2)) || tipAmount === Infinity
                   ? "0.00"
                   : tipAmount.toFixed(2)}
               </p>
@@ -195,7 +159,7 @@ export default function App() {
                 id="total"
               >
                 $
-                {isFinite(total.toFixed(2)) || isNaN(total.toFixed(2))
+                {isNaN(total.toFixed(2)) || total === Infinity
                   ? "0.00"
                   : total.toFixed(2)}
               </p>
