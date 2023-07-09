@@ -1,7 +1,6 @@
 import { useState } from "react";
-import Input from "./components/Input.jsx";
-import Tips from "./components/Tips.jsx";
 import Result from "./components/Result.jsx";
+import Form from "./components/Form.jsx";
 
 const TIPS = [
   { amount: 0.05, id: 0 },
@@ -57,34 +56,17 @@ export default function App() {
         <img src="images/logo.svg" alt="" />
       </h1>
       <main className="grid max-w-4xl gap-8 rounded-3xl bg-clr-nuetral-100 p-8 lg:grid-cols-2">
-        <div className="grid gap-8">
-          <Input
-            title="Bill"
-            placeholder="0.00"
-            id="billInput"
-            icon="images/icon-dollar.svg"
-            value={bill}
-            onChange={setBill}
-          />
-
-          <Tips
-            TIPS={TIPS}
-            handleCustomTipChange={handleCustomTipChange}
-            handleTipChange={handleTipChange}
-            selectedId={selectedId}
-            customTip={customTip}
-          />
-
-          <Input
-            title="Number of People"
-            placeholder="1"
-            id="numberOfPeopleInput"
-            icon="images/icon-person.svg"
-            value={numberOfPeople}
-            onChange={setNumberOfPeople}
-            error="Can't be zero"
-          />
-        </div>
+        <Form
+          bill={bill}
+          setBill={setBill}
+          TIPS={TIPS}
+          handleCustomTipChange={handleCustomTipChange}
+          handleTipChange={handleTipChange}
+          selectedId={selectedId}
+          customTip={customTip}
+          numberOfPeople={numberOfPeople}
+          setNumberOfPeople={setNumberOfPeople}
+        />
 
         <Result
           tipAmount={tipAmount}
